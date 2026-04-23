@@ -25,8 +25,28 @@ Puzzlebot-Repository/
 │           ├── test_flake8.py
 │           ├── test_pep257.py
 │           └── test_copyright.py
+├── te3002b_intelligent_robotics/
+│   └── week2/
+│       └── week2_puzzlebot_control/
+│           ├── launch/
+│           ├── resource/
+│           ├── test/
+│           └── week2_puzzlebot_control/
 └── README.md
 ```
+
+## TE3002B Course Folder
+
+`te3002b_intelligent_robotics/` contains coursework material for the Intelligent Robotics class.
+
+Inside `week2/`, the main source package is `week2_puzzlebot_control`, which provides:
+
+- `open_loop_square.py`: open-loop motion routine to drive the Puzzlebot in a square-like path.
+- `path_generator.py`: waypoint/path generation utilities used by the control flow.
+- `waypoint_follower.py`: waypoint tracking logic for sequential target following.
+- `launch/mini_challenge.launch.py`: launch entry point for the Week 2 mini-challenge setup.
+
+The `build/`, `install/`, and `log/` directories under `week2/` are colcon-generated artifacts from local builds and test runs.
 
 ## ROS 2 Package
 

@@ -1,0 +1,5 @@
+[console_scripts]
+open_loop_square = week2_puzzlebot_control.open_loop_square:main
+path_generator = week2_puzzlebot_control.path_generator:main
+waypoint_follower = week2_puzzlebot_control.waypoint_follower:main
+
