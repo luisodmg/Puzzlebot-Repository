@@ -7,6 +7,11 @@ This folder contains standalone ROS 2 Python nodes used in Week 3 for:
 - Waypoint-based trajectory following
 - Pentagon waypoint generation
 
+## Controllers Used
+
+- `pid_square_controller.py`: PID control (distance and heading loops with Kp, Ki, Kd).
+- `pid_waypoint_follower.py`: P control (proportional-only terms for linear and angular velocity, no integral or derivative terms).
+
 ## Files
 
 - odom_node.py
@@ -17,11 +22,13 @@ This folder contains standalone ROS 2 Python nodes used in Week 3 for:
   - Subscribes to /odom
   - Publishes velocity commands to cmd_vel
   - Uses a state machine and PID loops to complete a square path
+  - Controller type: PID
 
 - pid_waypoint_follower.py
   - Subscribes to /odom and /waypoint
   - Publishes velocity commands on /cmd_vel
   - Executes incoming waypoints sequentially until trajectory completion
+  - Controller type: P
 
 - trajectory_generator.py
   - Publishes PoseStamped goals on /waypoint
