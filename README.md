@@ -1,97 +1,99 @@
 # Puzzlebot Workspace
 
-This repository contains a ROS 2 workspace package for Puzzlebot launch configurations used in:
+This repository contains ROS 2 packages and coursework material for Puzzlebot simulation, perception, and control.
 
-- Gazebo simulation scenarios
-- Jetson camera + ArUco detection workflows
-- micro-ROS agent startup
-- Combined go-to-point + Kalman + marker publishing orchestration
+## What Is In This Repo
 
-## Workspace Layout
+- `src/puzzlebot_ros`: ROS 2 Python package with launch files for Gazebo, Jetson camera, ArUco detection, and micro-ROS integration.
+- `te3002b_intelligent_robotics/week2`: TE3002B Week 2 package (`week2_puzzlebot_control`) plus local colcon artifacts.
+- `te3002b_intelligent_robotics/week3`: Week 3 reference scripts (odometry, PID controllers, trajectory generation).
 
-```text
-Puzzlebot-Repository/
-├── src/
-│   └── puzzlebot_ros/
-│       ├── *.launch.py
-│       ├── package.xml
-│       ├── setup.py
-│       ├── setup.cfg
-│       ├── puzzlebot_ros/
-│       │   └── __init__.py
-│       ├── resource/
-│       │   └── puzzlebot_ros
-│       └── test/
-│           ├── test_flake8.py
-│           ├── test_pep257.py
-│           └── test_copyright.py
-├── te3002b_intelligent_robotics/
-│   └── week2/
-│       └── week2_puzzlebot_control/
-│           ├── launch/
-│           ├── resource/
-│           ├── test/
-│           └── week2_puzzlebot_control/
-└── README.md
-```
+## Key Files
 
-## TE3002B Course Folder
+### `src/puzzlebot_ros` package
 
-`te3002b_intelligent_robotics/` contains coursework material for the Intelligent Robotics class.
+- Launch files:
+  - `gazebo_empty.launch.py`
+  - `gazebo_box.launch.py`
+  - `gazebo_aruco.launch.py`
+  - `camera_jetson.launch.py`
+  - `aruco_jetson.launch.py`
+  - `marker_publisher.launch.py`
+  - `goto_kalman.launch.py`
+  - `micro_ros_agent.launch.py`
+- Python nodes/modules:
+  - `puzzlebot_ros/odom_node.py`
+  - `puzzlebot_ros/pid_square_controller.py`
+  - `puzzlebot_ros/pid_waypoint_follower.py`
+  - `puzzlebot_ros/trajectory_generator.py`
 
-Inside `week2/`, the main source package is `week2_puzzlebot_control`, which provides:
+### `te3002b_intelligent_robotics/week2/week2_puzzlebot_control`
 
-- `open_loop_square.py`: open-loop motion routine to drive the Puzzlebot in a square-like path.
-- `path_generator.py`: waypoint/path generation utilities used by the control flow.
-- `waypoint_follower.py`: waypoint tracking logic for sequential target following.
-- `launch/mini_challenge.launch.py`: launch entry point for the Week 2 mini-challenge setup.
+- `open_loop_square.py`
+- `path_generator.py`
+- `waypoint_follower.py`
+- `launch/mini_challenge.launch.py`
 
-The `build/`, `install/`, and `log/` directories under `week2/` are colcon-generated artifacts from local builds and test runs.
+### `te3002b_intelligent_robotics/week3`
 
-## ROS 2 Package
-
-- Package name: `puzzlebot_ros`
-- Build type: `ament_python`
-- Version: `0.0.0`
+- `odom_node.py`
+- `pid_square_controller.py`
+- `pid_waypoint_follower.py`
+- `trajectory_generator.py`
 
 ## Prerequisites
 
-Install ROS 2 (recommended on Ubuntu) and make sure `colcon` is available.
+Required tools:
 
-In addition to ROS 2 core packages, these launch files rely on external packages/tools:
+- ROS 2
+- `colcon`
 
-- `ros_deep_learning` (for `video_source`)
+External packages/utilities used by launch files:
+
+- `ros_deep_learning` (`video_source`)
 - `camera_info_publisher`
 - `aruco_ros`
 - `ros_gz_bridge`
 - `tf2_ros`
 - `micro_ros_agent`
-- Gazebo Sim command line (`gz sim`)
+- Gazebo Sim CLI (`gz sim`)
 
-Also ensure your environment provides any required custom executables referenced by launch files, such as `goto_point` and `kalman`.
+If you use `goto_kalman.launch.py`, make sure `goto_point` and `kalman` executables are available in your ROS environment.
 
 ## Build
 
-From the workspace root (`Puzzlebot-Repository`):
+Run from repository root:
 
 ```bash
 colcon build --packages-select puzzlebot_ros
 ```
 
-Then source your workspace:
+## Source Workspace
+
+Linux/macOS (`bash`):
 
 ```bash
 source install/setup.bash
 ```
 
-If you use `zsh`, PowerShell, or another shell, source the matching setup script for your shell.
-
-## Run Launch Files
-
-After sourcing the workspace, use:
+Linux (`zsh`):
 
 ```bash
-ros2 launch puzzlebot_ros <launch_file_name>.launch.py
+source install/setup.zsh
+```
+
+Windows PowerShell:
+
+```powershell
+.\install\setup.ps1
+```
+
+## Run
+
+Generic command:
+
+```bash
+ros2 launch puzzlebot_ros <launch_file>.launch.py
 ```
 
 Examples:
@@ -107,16 +109,16 @@ ros2 launch puzzlebot_ros micro_ros_agent.launch.py
 ros2 launch puzzlebot_ros marker_publisher.launch.py
 ```
 
-## Launch File Summary
+## Launch Summary
 
-- `gazebo_empty.launch.py`: Starts `gz sim world_empty.sdf`, bridges camera/control/encoder topics, and publishes static camera transform.
-- `gazebo_box.launch.py`: Same as above, using `world_box.sdf`.
-- `gazebo_aruco.launch.py`: Same as above, using `world_aruco_mip.sdf`.
-- `camera_jetson.launch.py`: Starts CSI camera stream (`video_source`) and camera info publisher.
-- `aruco_jetson.launch.py`: Starts camera stream + camera info + ArUco marker publisher.
-- `marker_publisher.launch.py`: Launches ArUco marker publisher with configurable arguments.
-- `goto_kalman.launch.py`: Launches `goto_point`, `kalman`, and includes marker publisher launch.
-- `micro_ros_agent.launch.py`: Launches micro-ROS agent over serial (`/dev/ttyUSB0`).
+- `gazebo_empty.launch.py`: starts `gz sim world_empty.sdf` and bridges key robot/camera topics.
+- `gazebo_box.launch.py`: same flow as empty world but with `world_box.sdf`.
+- `gazebo_aruco.launch.py`: same flow with `world_aruco_mip.sdf`.
+- `camera_jetson.launch.py`: Jetson CSI camera stream + camera info publisher.
+- `aruco_jetson.launch.py`: camera stream + camera info + ArUco marker publisher.
+- `marker_publisher.launch.py`: standalone marker publisher with launch arguments.
+- `goto_kalman.launch.py`: starts go-to-point and Kalman nodes and includes marker publisher.
+- `micro_ros_agent.launch.py`: starts serial micro-ROS agent.
 
 ## Marker Publisher Arguments
 
@@ -132,30 +134,17 @@ Example:
 ros2 launch puzzlebot_ros marker_publisher.launch.py marker_size:=0.12 side:=right reference_frame:=base
 ```
 
-## Code Quality Tests
-
-The package includes standard ROS 2 linter tests:
+## Tests
 
 ```bash
 colcon test --packages-select puzzlebot_ros
 colcon test-result --verbose
 ```
 
-Configured checks include:
-
-- Flake8
-- PEP257
-- Copyright check (currently skipped in test)
+Current test suite includes flake8, pep257, and copyright checks.
 
 ## Notes
 
-- `package.xml` and `setup.py` still contain placeholder fields for description/license.
-- If running on Jetson hardware, verify camera calibration file path:
-  - `file:///home/puzzlebot/.ros/jetson_cam.yaml`
-- If running micro-ROS, update serial device path in the launch file if needed.
-
-## Next Improvements
-
-- Add missing runtime dependencies to `package.xml` (`exec_depend` entries).
-- Add Python entry points in `setup.py` for any package-provided nodes.
-- Replace placeholder package metadata (description/license/versioning strategy).
+- `te3002b_intelligent_robotics/week2/build`, `install`, and `log` are generated colcon artifacts.
+- Jetson calibration path used by launch files may need to match your system setup.
+- Serial port for micro-ROS (for example `/dev/ttyUSB0`) may need to be adjusted.
