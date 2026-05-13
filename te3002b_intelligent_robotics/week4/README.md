@@ -44,6 +44,8 @@ It publishes:
 
 The node follows a fixed sequence of move and turn actions. When the light is red it stops, when it is yellow it slows down, and when it is green it continues moving.
 
+The waypoint controller uses a simple proportional controller. For `MOVE` actions, it compares the distance traveled from the starting point to the target distance and computes a linear speed proportional to the remaining error. For `TURN` actions, it compares the current yaw to the target yaw and computes an angular speed proportional to the heading error. In both cases, the command is clamped to a maximum speed, and the speed is reduced when the traffic light is yellow.
+
 ## What Runs Together
 
 These three nodes depend on each other:
