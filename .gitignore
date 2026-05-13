@@ -1,0 +1,10 @@
+build/
+install/
+log/
+
+build_backup/
+install_backup/
+log_backup/
+
+__pycache__/
+*.pyc
